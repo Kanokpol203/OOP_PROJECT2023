@@ -5,9 +5,9 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-public class Player extends Entity implements Runnable, MouseMotionListener{
+public class Player extends Entity implements MouseMotionListener{
     Thread player_thread = new Thread();
-    final int FPS = 10;
+    final int FPS = 60;
     Image image;
     public Player(GameBoard game){
         super(game.WIDTH/2, game.HEIGHT/2);
