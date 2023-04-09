@@ -14,12 +14,11 @@ import javax.swing.ImageIcon;
 public class Player extends Entity implements Runnable, MouseMotionListener{
     Thread player_thread = new Thread();
     final int FPS = 60;
-    private Mouse_Movement mouse = new Mouse_Movement(this);
     Image image;
     public Player(GameBoard game){
         super(game.WIDTH/2, game.HEIGHT/2);
-        image = Toolkit.getDefaultToolkit().getImage("src/Asset/Cursor.png");
-        image = image.getScaledInstance(80, 100, Image.SCALE_SMOOTH);
+        image = Toolkit.getDefaultToolkit().getImage("Smash_Moley/src/Asset/Cursor.png");
+        image = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
     }
     public void update(){
         
@@ -44,7 +43,7 @@ public class Player extends Entity implements Runnable, MouseMotionListener{
         }
     }
     public void redraw(Graphics2D g2d){
-        g2d.drawImage(image, this.getX() - image.getWidth(null) / 2, this.getY() - image.getHeight(null) / 2, null);
+        g2d.drawImage(image, this.getX(), this.getY(), null);
     }
     @Override
     public void mouseDragged(MouseEvent e) {
