@@ -3,7 +3,7 @@ public class Starter extends JFrame{
     public Starter(){
         GameBoard game = new GameBoard();
         this.add(game);
-        this.setTitle("Something IDK Think later");
+        this.setTitle("Smash Moley!");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

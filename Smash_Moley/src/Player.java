@@ -3,16 +3,22 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class Player extends Entity implements MouseMotionListener{
+public class Player extends Entity implements MouseMotionListener, MouseListener{
+    private final int CURSOR_SIZE = 100;
     Thread player_thread = new Thread();
     final int FPS = 60;
     Image image;
+    GameBoard game;
     public Player(GameBoard game){
         super(game.WIDTH/2, game.HEIGHT/2);
-        image = Toolkit.getDefaultToolkit().getImage("Smash_Moley/src/Asset/Cursor.png");
-        image = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        //This is the part where it's bug alot
+        image = Toolkit.getDefaultToolkit().getImage("src/Asset/Cursor.png");
+        this.game = game;
+        image = image.getScaledInstance(CURSOR_SIZE, CURSOR_SIZE, Image.SCALE_SMOOTH);
+        //this.game.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
     }
 
     public void redraw(Graphics2D g2d){
@@ -24,8 +30,40 @@ public class Player extends Entity implements MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        this.setX(e.getX());
-        this.setY(e.getY());
+        this.setX(e.getX()-25);
+        this.setY(e.getY()-25);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse clicked at (" + e.getX() + ", " + e.getY() + ")");
+
+        for(Mole mole : game.moles) {
+            if(mole.isVisible() && mole.isHit(e.getX(), e.getY())) {
+                mole.whack();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void update() {
     }
     
 }
