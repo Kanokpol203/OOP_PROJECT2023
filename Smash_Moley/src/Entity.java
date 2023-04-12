@@ -1,4 +1,4 @@
-public class Entity {
+public abstract class Entity {
     private int x;
     private int y;
 
@@ -26,6 +26,6 @@ public class Entity {
     public int getY() {
         return y;
     }
-    
+    public abstract void update();
     
 }

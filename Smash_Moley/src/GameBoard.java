@@ -2,41 +2,51 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class GameBoard extends JPanel implements Runnable{
-    final int OG_TILE_SIZE = 40;
-    final int SCALE = 3;
-    final int OG_GUI_SIZE = 40;
+    final int OG_TILE_SIZE = 30;
+    final int SCALE = 5;
     final int TILESIZE = OG_TILE_SIZE * SCALE;
-    final int GUI_SIZE = 30 * SCALE;
-    final int SCREEN_COL = 4;
+    final int GUI_SIZE = OG_TILE_SIZE * SCALE;
+    final int SCREEN_COL = 5;
     final int SCREEN_ROW = 3;
     final int WIDTH = TILESIZE * SCREEN_COL;
-    final int HEIGHT = TILESIZE * SCREEN_ROW + OG_GUI_SIZE * SCREEN_ROW;
+    final int GAME_HEIGHT = TILESIZE * SCREEN_ROW;
+    final int HEIGHT = TILESIZE * SCREEN_ROW + GUI_SIZE;
     final int FPS = 60;
-    Thread gameThread, playerThread;
+    Thread gameThread, mole_thread;
     List<Mole> moles;
-    private long time = System.currentTimeMillis();
-    private Player player = new Player(this);
+    List<Thread> threads;
+    private Player player;
     
     public GameBoard() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        player = new Player(this);
         this.addMouseMotionListener(player);
-        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
+        this.addMouseListener(player);
+        moles = new ArrayList<>();
+        threads = new ArrayList<>();
+    } 
+    
+    public void removeMole(Mole mole) {
+        int index = moles.indexOf(mole);
+        if (index >= 0) {
+            moles.remove(index);
+            threads.remove(index);
+        }
     }
     
     public void startThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        System.out.println(moles.size() +" "+ threads.size());
     }
 
     @Override
@@ -48,8 +58,8 @@ public class GameBoard extends JPanel implements Runnable{
             long currentTime = System.currentTimeMillis();
             long elapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
-    
-            update(elapsedTime);
+            
+            update();
             repaint();
     
             long remainingTime = Math.max(0, (long) (1000.0 / FPS - elapsedTime));
@@ -61,8 +71,18 @@ public class GameBoard extends JPanel implements Runnable{
         }
     }
 
-    public void update(long time) {
-        
+    public void update() {
+        if(moles.size() < 3) {
+            Random random = new Random();
+            int x = random.nextInt(SCREEN_COL) * TILESIZE;
+            int y = (random.nextInt(SCREEN_ROW) + 1) * TILESIZE;
+            Mole mole = new Mole(x, y, this);
+            Thread thread = new Thread(mole);
+            moles.add(mole);
+            thread.start();
+            threads.add(thread);
+            System.out.println(moles.size() +" "+ threads.size());
+        }
     }
 
     @Override
@@ -79,15 +99,11 @@ public class GameBoard extends JPanel implements Runnable{
                 g2d.drawOval(x, y, TILESIZE, TILESIZE);
             }
         }
-        for (int row = 0; row < 1; row++) {
-            for (int col = 0; col < SCREEN_COL; col++) {
-                int x = col * TILESIZE;
-                int y = row * TILESIZE;
-                // draw a square on top of each block
-                g2d.setColor(Color.BLACK);
-                g2d.drawRect(x, y, TILESIZE, TILESIZE-10);
-            }
+        
+        for(Mole that_moles: moles){
+            that_moles.redraw(g2d);
         }
+        
         player.redraw(g2d);
         g2d.dispose();
     }
