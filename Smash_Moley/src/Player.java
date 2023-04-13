@@ -1,13 +1,15 @@
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 
 public class Player extends Entity implements MouseMotionListener, MouseListener{
-    private final int CURSOR_SIZE = 100;
+    private int cursor_size;
     Thread player_thread = new Thread();
     final int FPS = 60;
     Image image;
@@ -17,8 +19,9 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
         //This is the part where it's bug alot
         image = Toolkit.getDefaultToolkit().getImage("src/Asset/Cursor.png");
         this.game = game;
-        image = image.getScaledInstance(CURSOR_SIZE, CURSOR_SIZE, Image.SCALE_SMOOTH);
-        //this.game.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
+        cursor_size = game.TILESIZE/2;
+        image = image.getScaledInstance(cursor_size, cursor_size, Image.SCALE_SMOOTH);
+        this.game.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
     }
 
     public void redraw(Graphics2D g2d){

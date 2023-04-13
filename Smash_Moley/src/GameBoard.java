@@ -72,18 +72,30 @@ public class GameBoard extends JPanel implements Runnable{
     }
 
     public void update() {
-        if(moles.size() < 3) {
+        if (moles.size() < 3) {
             Random random = new Random();
-            int x = random.nextInt(SCREEN_COL) * TILESIZE;
-            int y = (random.nextInt(SCREEN_ROW) + 1) * TILESIZE;
+            int x, y;
+            boolean overlap;
+            do {
+                overlap = false;
+                x = random.nextInt(SCREEN_COL) * TILESIZE;
+                y = (random.nextInt(SCREEN_ROW) + 1) * TILESIZE;
+                for (Mole mole : moles) {
+                    if (mole.getX() == x && mole.getY() == y) {
+                        overlap = true;
+                        break;
+                    }
+                }
+            } while (overlap);
             Mole mole = new Mole(x, y, this);
             Thread thread = new Thread(mole);
             moles.add(mole);
             thread.start();
             threads.add(thread);
-            System.out.println(moles.size() +" "+ threads.size());
+            System.out.println(moles.size() + " " + threads.size());
         }
     }
+
 
     @Override
     public void paintComponent(Graphics g) {
