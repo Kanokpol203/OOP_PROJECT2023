@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 public class Player extends Entity implements MouseMotionListener, MouseListener{
     private int cursor_size;
@@ -17,7 +18,7 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
     public Player(GameBoard game){
         super(game.WIDTH/2, game.HEIGHT/2);
         //This is the part where it's bug alot
-        image = Toolkit.getDefaultToolkit().getImage("src/Asset/Cursor.png");
+        image = new ImageIcon("src/Asset/Cursor.png").getImage();
         this.game = game;
         cursor_size = game.TILESIZE/2;
         image = image.getScaledInstance(cursor_size, cursor_size, Image.SCALE_SMOOTH);

@@ -1,6 +1,7 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import java.util.Random;
 public class Mole extends Entity implements Hitable, Runnable {
     private boolean visible;
@@ -15,7 +16,7 @@ public class Mole extends Entity implements Hitable, Runnable {
         super(x,y);
         this.game = game;
         visible = false;
-        image = Toolkit.getDefaultToolkit().getImage("src/Asset/Mole1.png");
+        image = new ImageIcon("src/Asset/Mole1.png").getImage();
         image = image.getScaledInstance(game.TILESIZE, game.TILESIZE, Image.SCALE_SMOOTH);
         thread = new Thread(this);
         
