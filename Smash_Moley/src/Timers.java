@@ -1,43 +1,34 @@
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 //import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
-public final class Timers extends JPanel{
+public final class Timers {
     
-    //JFrame window;
-    JLabel counterLabel;
     Font font1 = new Font("Arial", Font.PLAIN, 70);	
     Timer timer;	
     int second, minute;
-    String ddSecond, ddMinute;	
+    String ddSecond, ddMinute, strtime;	
     DecimalFormat dFormat = new DecimalFormat("00");
-    
-    public Timers()
+    GameBoard game;
+    public Timers(GameBoard game)
     {
         //window = new JFrame();
 	//window.setSize(800,600);
 	//window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//window.setLayout(null);
 		
-	counterLabel = new JLabel("");
-	counterLabel.setBounds(300, 230, 200, 100);
-	counterLabel.setHorizontalAlignment(JLabel.CENTER);
-	counterLabel.setFont(font1);
-		
 	//window.add(counterLabel);
-	//window.setVisible(true);
-        
-        counterLabel.setText("03:00");
-	second =0;
-	minute =3;
+        this.game = game;
+	second = 0;
+	minute = 3;
 	countdownTimer();
 	timer.start();
+        strtime = "03" + ":" + "00";
     }
     
     public void countdownTimer() {
@@ -50,20 +41,24 @@ public final class Timers extends JPanel{
                 second--;
 		ddSecond = dFormat.format(second);
 		ddMinute = dFormat.format(minute);	
-		counterLabel.setText(ddMinute + ":" + ddSecond);
-				
+		strtime	= ddMinute + ":" + ddSecond;
 		if(second==-1) {
                     second = 59;
                     minute--;
                     ddSecond = dFormat.format(second);
                     ddMinute = dFormat.format(minute);	
-                    counterLabel.setText(ddMinute + ":" + ddSecond);
+                    strtime = ddMinute + ":" + ddSecond;
 		}
 				
                 if(minute==0 && second==0) {
                     timer.stop();
+                    game.gameThread = null;
 		}
             }
         });
+    }
+    public void redraw(Graphics2D g2d){
+        g2d.setFont(font1);
+        g2d.drawString(strtime, game.TILESIZE+(game.TILESIZE/2), game.TILESIZE/2);
     }
 }

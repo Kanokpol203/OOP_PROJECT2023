@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,10 @@ public class GameBoard extends JPanel implements Runnable{
     final int GAME_HEIGHT = TILESIZE * SCREEN_ROW;
     final int HEIGHT = TILESIZE * SCREEN_ROW + GUI_SIZE;
     final int FPS = 60;
-    Thread gameThread, mole_thread;
+    
+    private Timers timer;
+    private GameAsset asset;
+    Thread gameThread;
     List<Mole> moles;
     List<Thread> threads;
     private Player player;
@@ -29,6 +33,7 @@ public class GameBoard extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         player = new Player(this);
+        timer = new Timers(this);
         this.addMouseMotionListener(player);
         this.addMouseListener(player);
         moles = new ArrayList<>();
@@ -39,9 +44,15 @@ public class GameBoard extends JPanel implements Runnable{
         int index = moles.indexOf(mole);
         if (index >= 0) {
             moles.remove(index);
-            threads.remove(index);
+            System.out.println("Mole "+ index + " Removed");
+//            threads.remove(index);
         }
     }
+
+    public GameAsset getAsset() {
+        return asset;
+    }
+    
     
     public void startThread() {
         gameThread = new Thread(this);
@@ -91,7 +102,7 @@ public class GameBoard extends JPanel implements Runnable{
             Thread thread = new Thread(mole);
             moles.add(mole);
             thread.start();
-            threads.add(thread);
+//            threads.add(thread);
             System.out.println(moles.size() + " " + threads.size());
         }
     }
@@ -115,7 +126,7 @@ public class GameBoard extends JPanel implements Runnable{
         for(Mole that_moles: moles){
             that_moles.redraw(g2d);
         }
-        
+        timer.redraw(g2d);
         player.redraw(g2d);
         g2d.dispose();
     }

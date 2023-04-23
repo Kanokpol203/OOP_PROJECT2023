@@ -3,7 +3,7 @@ public class GameAsset {
     private String difficulty;
     
     public void changeScore(int score){
-        this.score -= score;
+        this.score += score;
     }
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
