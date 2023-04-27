@@ -2,10 +2,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class GameBoard extends JPanel implements Runnable{
@@ -20,6 +21,7 @@ public class GameBoard extends JPanel implements Runnable{
     final int HEIGHT = TILESIZE * SCREEN_ROW + GUI_SIZE;
     final int FPS = 60;
     
+    private Image mole_hole;
     private Timers timer;
     private GameAsset asset;
     Thread gameThread;
@@ -34,13 +36,15 @@ public class GameBoard extends JPanel implements Runnable{
         this.setFocusable(true);
         player = new Player(this);
         timer = new Timers(this);
+        mole_hole = new ImageIcon("src/Asset/Mole_hole2_test.png").getImage();
+        mole_hole = mole_hole.getScaledInstance(TILESIZE, TILESIZE, Image.SCALE_SMOOTH);
         this.addMouseMotionListener(player);
         this.addMouseListener(player);
         moles = new ArrayList<>();
         threads = new ArrayList<>();
     } 
     
-    public void removeMole(Mole mole) {
+    synchronized public void removeMole(Mole mole) {
         int index = moles.indexOf(mole);
         if (index >= 0) {
             moles.remove(index);
@@ -82,7 +86,7 @@ public class GameBoard extends JPanel implements Runnable{
         }
     }
 
-    public void update() {
+    synchronized public void update() {
         if (moles.size() < 3) {
             Random random = new Random();
             int x, y;
@@ -109,7 +113,7 @@ public class GameBoard extends JPanel implements Runnable{
 
 
     @Override
-    public void paintComponent(Graphics g) {
+    synchronized public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
@@ -118,8 +122,7 @@ public class GameBoard extends JPanel implements Runnable{
                 int x = col * TILESIZE;
                 int y = row * TILESIZE;
                 // draw a square on top of each block
-                g2d.setColor(Color.BLACK);
-                g2d.drawOval(x, y, TILESIZE, TILESIZE);
+                g2d.drawImage(mole_hole, x, y, this);
             }
         }
         

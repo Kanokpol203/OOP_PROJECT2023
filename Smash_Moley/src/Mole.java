@@ -49,7 +49,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     
     
     @Override
-    public void whack() {
+    synchronized public void whack() {
         visible = false;
         running = false; // stop the thread
         game.removeMole(this);
