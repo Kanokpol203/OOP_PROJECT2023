@@ -1,47 +1,30 @@
 
-import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-public class Player extends Entity implements Runnable, MouseMotionListener{
+public class Player extends Entity implements MouseMotionListener, MouseListener{
+    private int cursor_size;
     Thread player_thread = new Thread();
     final int FPS = 60;
     Image image;
+    GameBoard game;
     public Player(GameBoard game){
         super(game.WIDTH/2, game.HEIGHT/2);
-        image = Toolkit.getDefaultToolkit().getImage("Smash_Moley/src/Asset/Cursor.png");
-        image = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        //This is the part where it's bug alot
+        image = new ImageIcon("src/Asset/Cursor.png").getImage();
+        this.game = game;
+        cursor_size = game.TILESIZE/2;
+        image = image.getScaledInstance(cursor_size, cursor_size, Image.SCALE_SMOOTH);
+        this.game.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
     }
-    public void update(){
-        
-    }
-    
-    
-    @Override
-    public void run() {
-        double draw = 1000.0 / FPS;
-        double drawNext = System.currentTimeMillis() + draw;
 
-        while (player_thread != null) {
-            update();
-            
-            try {
-                double remainTime = drawNext - System.currentTimeMillis();
-                Thread.sleep((long) remainTime);
-                drawNext += draw;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public void redraw(Graphics2D g2d){
         g2d.drawImage(image, this.getX(), this.getY(), null);
     }
@@ -51,8 +34,40 @@ public class Player extends Entity implements Runnable, MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        this.setX(e.getX());
-        this.setY(e.getY());
+        this.setX(e.getX()-25);
+        this.setY(e.getY()-25);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse clicked at (" + e.getX() + ", " + e.getY() + ")");
+
+        for(Mole mole : game.moles) {
+            if(mole.isVisible() && mole.isHit(e.getX(), e.getY())) {
+                mole.whack();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void update() {
     }
     
 }
