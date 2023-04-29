@@ -1,6 +1,19 @@
 public class GameAsset {
     private int score = 0;
     private String difficulty;
+    private boolean running;
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
     
     public void changeScore(int score){
         this.score += score;
