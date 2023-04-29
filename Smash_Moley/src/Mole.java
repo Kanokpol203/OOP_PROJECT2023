@@ -73,7 +73,7 @@ public class Mole extends Entity implements Hitable, Runnable {
         }
     }
     
-    public void redraw(Graphics2D g2d){
+    synchronized public void redraw(Graphics2D g2d){
         if(visible){
             g2d.drawImage(image, this.getX(), this.getY(), game);
         }

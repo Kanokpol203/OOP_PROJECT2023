@@ -9,17 +9,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class GameBoard extends JPanel implements Runnable{
-    final int OG_TILE_SIZE = 30;
-    final int SCALE = 5;
-    final int TILESIZE = OG_TILE_SIZE * SCALE;
-    final int GUI_SIZE = OG_TILE_SIZE * SCALE;
-    final int SCREEN_COL = 5;
-    final int SCREEN_ROW = 3;
-    final int WIDTH = TILESIZE * SCREEN_COL;
-    final int GAME_HEIGHT = TILESIZE * SCREEN_ROW;
-    final int HEIGHT = TILESIZE * SCREEN_ROW + GUI_SIZE;
-    final int FPS = 60;
+public class GameBoard extends JPanel implements Runnable, Screen_Size{
+    public final int FPS = 60;
     
     private Image mole_hole;
     private Timers timer;
@@ -30,13 +21,13 @@ public class GameBoard extends JPanel implements Runnable{
     private Player player;
     
     public GameBoard() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setPreferredSize(new Dimension(Screen_Size.WIDTH, Screen_Size.HEIGHT));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         player = new Player(this);
         timer = new Timers(this);
-        mole_hole = new ImageIcon("src/Asset/Mole_hole2_test.png").getImage();
+        mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
         mole_hole = mole_hole.getScaledInstance(TILESIZE, TILESIZE, Image.SCALE_SMOOTH);
         this.addMouseMotionListener(player);
         this.addMouseListener(player);
@@ -117,6 +108,7 @@ public class GameBoard extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        
         for (int row = 1; row < SCREEN_ROW+1; row++) {
             for (int col = 0; col < SCREEN_COL; col++) {
                 int x = col * TILESIZE;
@@ -125,10 +117,10 @@ public class GameBoard extends JPanel implements Runnable{
                 g2d.drawImage(mole_hole, x, y, this);
             }
         }
-        
-        for(Mole that_moles: moles){
+                for(Mole that_moles: moles){
             that_moles.redraw(g2d);
         }
+
         timer.redraw(g2d);
         player.redraw(g2d);
         g2d.dispose();
