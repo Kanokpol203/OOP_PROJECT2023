@@ -81,7 +81,7 @@ public class GameBoard extends JPanel implements Runnable, Screen_Size{
     }
 
     public void update() {
-        if (moles.size() < 3 && bombs.size() < 2) {
+        if (moles.size() < 3 && bombs.size() < 5) {
             Random random = new Random();
             int x, y;
             boolean overlap;
@@ -120,12 +120,12 @@ public class GameBoard extends JPanel implements Runnable, Screen_Size{
 
 
     @Override
-    synchronized public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        
-        for (int row = 1; row < SCREEN_ROW+1; row++) {
+        g2d.drawRect(0, 0, Screen_Size.WIDTH, Screen_Size.GUI_SIZE);
+        for (int row = 1; row < SCREEN_ROW + 1; row++) {
             for (int col = 0; col < SCREEN_COL; col++) {
                 int x = col * TILESIZE;
                 int y = row * TILESIZE;

@@ -1,11 +1,13 @@
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import javax.swing.Timer;
 
-public final class Timers {
+public final class Timers implements Screen_Size{
     
     Font font1 = new Font("Arial", Font.PLAIN, 70);	
     Timer timer;	
@@ -57,6 +59,8 @@ public final class Timers {
     }
     public void redraw(Graphics2D g2d){
         g2d.setFont(font1);
-        g2d.drawString(strtime, game.TILESIZE+(game.TILESIZE/2), game.TILESIZE/2);
+        FontMetrics metrics = g2d.getFontMetrics(font1);
+        Rectangle2D bounds = metrics.getStringBounds(strtime, g2d);
+        g2d.drawString(strtime, WIDTH/2 - (int)bounds.getWidth()/2, TILESIZE/2);
     }
 }
