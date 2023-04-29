@@ -40,20 +40,10 @@ public class GameBoard extends JPanel implements Runnable, Screen_Size{
     }
     
     synchronized public void removeMole(Mole mole) {
-        int index = moles.indexOf(mole);
-        if (index >= 0) {
-            moles.remove(index);
-            System.out.println("Mole "+ index + " Removed");
-//            threads.remove(index);
-        }
+        moles.remove(mole);
     }
     synchronized public void removeBomb(Bomb bomb) {
-        int index = moles.indexOf(bomb);
-        if (index >= 0) {
-            moles.remove(index);
-            System.out.println("bomb "+ index + " Removed");
-//            threads.remove(index);
-        }
+        bombs.remove(bomb);
     }
 
     public GameAsset getAsset() {
@@ -91,7 +81,7 @@ public class GameBoard extends JPanel implements Runnable, Screen_Size{
     }
 
     public void update() {
-        if (moles.size() + bombs.size() < 3) {
+        if (moles.size() < 3 && bombs.size() < 2) {
             Random random = new Random();
             int x, y;
             boolean overlap;
@@ -112,7 +102,7 @@ public class GameBoard extends JPanel implements Runnable, Screen_Size{
                     }  
                 }
             } while (overlap);
-            if(random.nextInt(10) == 0){
+            if(random.nextInt(3) == 0){
                 Bomb bomb = new Bomb(x, y, this);
                 Thread bomb_thread = new Thread(bomb);
                 bombs.add(bomb);

@@ -4,7 +4,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
-    private int life_time = 3000;
+    private int life_time = 1000;
     private Thread thread;
     private boolean alive = true;
     private long spawntime;
@@ -14,6 +14,7 @@ public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
     public Bomb(int x, int y, GameBoard game){
         super(x, y, -100);
         this.game = game;
+        spawntime = System.currentTimeMillis();
         image = new ImageIcon("src/Asset/bomb_tmp.png").getImage();
         image = image.getScaledInstance(Screen_Size.TILESIZE, Screen_Size.TILESIZE, Image.SCALE_SMOOTH);
         thread = new Thread(this);
@@ -45,11 +46,15 @@ public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
 
     @Override
     public void run() {
+        this.setVisible(true);
         while(alive) {
-            this.setVisible(alive);
-            long elapsedTime = System.currentTimeMillis() - spawntime;
+            long currenttime = System.currentTimeMillis();
+            long elapsedTime = currenttime - spawntime;
             if(elapsedTime >= life_time) {
+                this.setVisible(false);
+                game.removeBomb(this);
                 alive = false;
+                System.out.println("I am dead");
             }
             try {
                 Thread.sleep(100);
@@ -63,7 +68,7 @@ public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
     }
     
     public void redraw(Graphics2D g2d) {
-        if(isVisible()){
+        if(this.isVisible()){
             g2d.drawImage(image, this.getX(), this.getY(), game);
         }
     }
