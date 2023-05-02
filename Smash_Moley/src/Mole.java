@@ -15,7 +15,7 @@ public class Mole extends Entity implements Hitable, Runnable {
         this.game = game;
         this.setVisible(false);
         image = new ImageIcon("src/Asset/Mole1.png").getImage();
-        image = image.getScaledInstance(game.TILESIZE, game.TILESIZE, Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(this.game.getScreen().getTilesize(), this.game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
         thread = new Thread(this);
     }
 
@@ -30,10 +30,10 @@ public class Mole extends Entity implements Hitable, Runnable {
             y >= hitBoxY && y < hitBoxY + hitBoxHeight);
     }
     public int getWidth(){
-        return game.TILESIZE;
+        return game.getScreen().getTilesize();
     }
     public int getHeight(){
-        return game.TILESIZE;
+        return game.getScreen().getTilesize();
     }
     
     

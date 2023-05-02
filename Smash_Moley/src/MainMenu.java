@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainMenu implements MouseListener, Screen_Size{
+public class MainMenu implements MouseListener{
+    private Screen_Size size = new Screen_Size();
     private JFrame f;
     private JPanel p1, p2, p3, p4, p5;
     private JButton b1, b2;
@@ -40,7 +41,7 @@ public class MainMenu implements MouseListener, Screen_Size{
         f.add(p1);
         
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(Screen_Size.WIDTH, Screen_Size.HEIGHT);
+        f.setSize(size.getWidth(), size.getHeight());
         f.setResizable(false);
         f.setLocationRelativeTo(null);
         f.setVisible(true);

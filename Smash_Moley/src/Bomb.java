@@ -3,7 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
+public class Bomb extends Entity implements Hitable, Runnable{
     private int life_time = 1000;
     private Thread thread;
     private boolean alive = true;
@@ -16,14 +16,14 @@ public class Bomb extends Entity implements Screen_Size, Hitable, Runnable{
         this.game = game;
         spawntime = System.currentTimeMillis();
         image = new ImageIcon("src/Asset/bomb_tmp.png").getImage();
-        image = image.getScaledInstance(Screen_Size.TILESIZE, Screen_Size.TILESIZE, Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(game.getScreen().getTilesize(), game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
         thread = new Thread(this);
     }
     public boolean isHit(int x, int y) {
         int hitBoxX = this.getX();
         int hitBoxY = this.getY();
-        int hitBoxWidth = GameBoard.TILESIZE;
-        int hitBoxHeight = GameBoard.TILESIZE;
+        int hitBoxWidth = game.getScreen().getTilesize();
+        int hitBoxHeight = game.getScreen().getTilesize();
         
         return (x >= hitBoxX && x < hitBoxX + hitBoxWidth &&
             y >= hitBoxY && y < hitBoxY + hitBoxHeight);

@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import javax.swing.Timer;
 
-public final class Timers implements Screen_Size{
+public final class Timers{
     
     Font font1 = new Font("Arial", Font.PLAIN, 70);	
     Timer timer;	
@@ -61,6 +61,6 @@ public final class Timers implements Screen_Size{
         g2d.setFont(font1);
         FontMetrics metrics = g2d.getFontMetrics(font1);
         Rectangle2D bounds = metrics.getStringBounds(strtime, g2d);
-        g2d.drawString(strtime, WIDTH/2 - (int)bounds.getWidth()/2, TILESIZE/2);
+        g2d.drawString(strtime, game.getScreen().getWidth()/2 - (int)bounds.getWidth()/2, game.getScreen().getTilesize()/2);
     }
 }
