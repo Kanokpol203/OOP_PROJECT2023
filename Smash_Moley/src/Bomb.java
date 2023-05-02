@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 
 public class Bomb extends Entity implements Hitable, Runnable{
     private int life_time = 1000;
-    private Thread thread;
     private boolean alive = true;
     private long spawntime;
     private GameBoard game;
@@ -17,7 +16,6 @@ public class Bomb extends Entity implements Hitable, Runnable{
         spawntime = System.currentTimeMillis();
         image = new ImageIcon("src/Asset/bomb_tmp.png").getImage();
         image = image.getScaledInstance(game.getScreen().getTilesize(), game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
-        thread = new Thread(this);
     }
     public boolean isHit(int x, int y) {
         int hitBoxX = this.getX();

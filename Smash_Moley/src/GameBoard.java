@@ -6,13 +6,15 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class GameBoard extends JPanel implements Runnable{
     public final int FPS = 60;
     private Screen_Size screen = new Screen_Size();
-    
+    ExecutorService pool = Executors.newFixedThreadPool(5);
     private Image mole_hole, bg;
     private Timers timer;
     private GameAsset asset;
@@ -71,6 +73,7 @@ public class GameBoard extends JPanel implements Runnable{
             player.update();
             repaint();
         }
+        pool.shutdown();
     }
 
     public void update() {
@@ -97,17 +100,16 @@ public class GameBoard extends JPanel implements Runnable{
                     }
                 }
             } while (overlap);
-            if(random.nextInt(3) == 0){
+            if (random.nextInt(3) == 0) {
                 Bomb bomb = new Bomb(x, y, this);
-                Thread bomb_thread = new Thread(bomb);
                 bombs.add(bomb);
-                bomb_thread.start();
-            }else{
+                pool.submit(bomb);
+            } else {
                 Mole mole = new Mole(x, y, this);
-                Thread mole_thread = new Thread(mole);
                 moles.add(mole);
-                mole_thread.start();
+                pool.submit(mole);
             }
+
 //            threads.add(thread);
             System.out.println(moles.size() + " " + bombs.size());
         }

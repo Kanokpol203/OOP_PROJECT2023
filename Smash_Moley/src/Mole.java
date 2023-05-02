@@ -3,7 +3,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.util.Random;
 public class Mole extends Entity implements Hitable, Runnable {
-    private Thread thread;
     private GameBoard game;
     private boolean running = true;
     private Random rand = new Random();
@@ -16,7 +15,6 @@ public class Mole extends Entity implements Hitable, Runnable {
         this.setVisible(false);
         image = new ImageIcon("src/Asset/Mole1.png").getImage();
         image = image.getScaledInstance(this.game.getScreen().getTilesize(), this.game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
-        thread = new Thread(this);
     }
 
     
