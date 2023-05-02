@@ -52,7 +52,6 @@ public class Bomb extends Entity implements Hitable, Runnable{
                 this.setVisible(false);
                 game.removeBomb(this);
                 alive = false;
-                System.out.println("I am dead");
             }
             try {
                 Thread.sleep(100);

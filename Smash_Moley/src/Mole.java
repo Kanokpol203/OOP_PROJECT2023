@@ -7,8 +7,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     private boolean running = true;
     private Random rand = new Random();
     private Image image;
-    private Thread mole_thread = new Thread();
-
+    
     public Mole(int x, int y,GameBoard game) {
         super(x, y, 100);
         this.game = game;
@@ -40,7 +39,6 @@ public class Mole extends Entity implements Hitable, Runnable {
         this.setVisible(false);
         running = false; // stop the thread
         game.removeMole(this);
-        System.out.println("Mole " + " Whacked");
     }
     
     

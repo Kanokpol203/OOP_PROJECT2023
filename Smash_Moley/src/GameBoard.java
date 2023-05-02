@@ -111,7 +111,6 @@ public class GameBoard extends JPanel implements Runnable{
             }
 
 //            threads.add(thread);
-            System.out.println(moles.size() + " " + bombs.size());
         }
     }
 
