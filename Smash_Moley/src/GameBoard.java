@@ -68,15 +68,29 @@ public class GameBoard extends JPanel implements Runnable{
 
     @Override
     public void run() {
+        long lastFrameTime = System.currentTimeMillis();
+    
         while (gameThread != null) {
+
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - lastFrameTime;
+            lastFrameTime = currentTime;
+    
             update();
-            player.update();
             repaint();
+    
+            long remainingTime = Math.max(0, (long) (1000.0 / FPS - elapsedTime));
+            try {
+                Thread.sleep(remainingTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         pool.shutdown();
     }
 
-    public void update() {
+    public void update() {            
+        player.update();
         if (moles.size() < 3 && bombs.size() < 2) {
             Random random = new Random();
             int x, y;
