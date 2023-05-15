@@ -30,6 +30,7 @@ public class GameBoard extends JPanel implements Runnable{
         this.setFocusable(true);
         player = new Player(this);
         timer = new Timers(this);
+        asset = new GameAsset(this);
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
         mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
@@ -123,8 +124,7 @@ public class GameBoard extends JPanel implements Runnable{
                 moles.add(mole);
                 pool.submit(mole);
             }
-
-//            threads.add(thread);
+            System.out.println(moles.size()+ " " + bombs.size());
         }
     }
 
@@ -151,6 +151,7 @@ public class GameBoard extends JPanel implements Runnable{
         for(Bomb that_bomb : bombs){
             that_bomb.redraw(g2d);
         }
+        asset.redraw(g2d);
         timer.redraw(g2d);
         player.redraw(g2d);
         g.dispose();

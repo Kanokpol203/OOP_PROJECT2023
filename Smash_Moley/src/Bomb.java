@@ -40,6 +40,7 @@ public class Bomb extends Entity implements Hitable, Runnable{
         alive = false; // stop the thread
         game.removeBomb(this);
         stunPlayer();
+        game.getAsset().changeScore(this.getScore());
     }
 
     @Override

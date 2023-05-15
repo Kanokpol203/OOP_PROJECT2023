@@ -1,7 +1,19 @@
+
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+
 public class GameAsset {
     private int score = 0;
     private String difficulty;
     private boolean running;
+    private Font font1 = new Font("Arial", Font.PLAIN, 35);
+    private GameBoard game;
+    
+    public GameAsset(GameBoard game){
+        this.game = game;
+    }
 
     public void setScore(int score) {
         this.score = score;
@@ -16,7 +28,9 @@ public class GameAsset {
     }
     
     public void changeScore(int score){
-        this.score += score;
+        if(this.score + score >= 0 ){
+            this.score += score;
+        }
     }
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
@@ -28,6 +42,13 @@ public class GameAsset {
 
     public String getDifficulty() {
         return difficulty;
+    }
+    public void redraw(Graphics g2d){
+        g2d.setFont(font1);
+        FontMetrics metrics = g2d.getFontMetrics(font1);
+        Rectangle2D bounds = metrics.getStringBounds("SCORE", g2d);
+        g2d.drawString("SCORE", 0, (int)bounds.getHeight());
+        g2d.drawString(score+"", 0, (int)bounds.getHeight()*2);
     }
     
 }
