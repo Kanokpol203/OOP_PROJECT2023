@@ -61,6 +61,6 @@ public final class Timers{
         g2d.setFont(font1);
         FontMetrics metrics = g2d.getFontMetrics(font1);
         Rectangle2D bounds = metrics.getStringBounds(strtime, g2d);
-        g2d.drawString(strtime, game.getScreen().getWidth()/2 - (int)bounds.getWidth()/2, game.getScreen().getTilesize()/2);
+        g2d.drawString(strtime, game.getScreen().getWidth()/4 - (int)bounds.getWidth()/4, game.getScreen().getTilesize()/2);
     }
 }

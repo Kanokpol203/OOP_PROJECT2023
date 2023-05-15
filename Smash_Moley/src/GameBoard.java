@@ -17,6 +17,7 @@ public class GameBoard extends JPanel implements Runnable{
     ExecutorService pool = Executors.newFixedThreadPool(5);
     private Image mole_hole, bg;
     private Timers timer;
+    private Score S;
     private GameAsset asset;
     Thread gameThread;
     List<Mole> moles;
@@ -30,6 +31,7 @@ public class GameBoard extends JPanel implements Runnable{
         this.setFocusable(true);
         player = new Player(this);
         timer = new Timers(this);
+        S = new Score(this);
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
         mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
@@ -152,6 +154,7 @@ public class GameBoard extends JPanel implements Runnable{
             that_bomb.redraw(g2d);
         }
         timer.redraw(g2d);
+        S.redraw(g2d);
         player.redraw(g2d);
         g.dispose();
     }

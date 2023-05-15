@@ -9,6 +9,7 @@ public class Bomb extends Entity implements Hitable, Runnable{
     private long spawntime;
     private GameBoard game;
     private Image image;
+    private Score sc  = new Score();
     
     public Bomb(int x, int y, GameBoard game){
         super(x, y, -100);
@@ -16,6 +17,7 @@ public class Bomb extends Entity implements Hitable, Runnable{
         spawntime = System.currentTimeMillis();
         image = new ImageIcon("src/Asset/bomb_tmp.png").getImage();
         image = image.getScaledInstance(game.getScreen().getTilesize(), game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
+        sc = new Score();
     }
     public boolean isHit(int x, int y) {
         int hitBoxX = this.getX();
@@ -40,6 +42,9 @@ public class Bomb extends Entity implements Hitable, Runnable{
         alive = false; // stop the thread
         game.removeBomb(this);
         stunPlayer();
+        
+        sc.setScore(sc.getScore() - 200);
+        System.out.println(sc.getScore());
     }
 
     @Override

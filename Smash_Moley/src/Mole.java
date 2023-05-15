@@ -7,6 +7,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     private boolean running = true;
     private Random rand = new Random();
     private Image image;
+    private Score sc  = new Score();
     
     public Mole(int x, int y,GameBoard game) {
         super(x, y, 100);
@@ -39,6 +40,9 @@ public class Mole extends Entity implements Hitable, Runnable {
         this.setVisible(false);
         running = false; // stop the thread
         game.removeMole(this);
+        
+        sc.setScore(sc.getScore() + 100);
+        System.out.println(sc.getScore());
     }
     
     
