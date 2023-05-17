@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public class Mole extends Entity implements Hitable, Runnable {
     private GameBoard game;
     private boolean running = true;
