@@ -19,6 +19,8 @@ public class GameBoard extends JPanel implements Runnable{
     private Timers timer;
     private GameAsset asset;
     boolean gamestart;
+
+    private String mode;
     Thread gameThread;
     List<Mole> moles;
     List<Bomb> bombs;
@@ -43,6 +45,69 @@ public class GameBoard extends JPanel implements Runnable{
         this.addMouseListener(player);
         moles = new ArrayList<>();
         bombs = new ArrayList<>();
+    }
+    
+    public GameBoard(String mode) {
+        if(mode == "ez")
+        {
+            this.mode = mode;
+            System.out.println(this.mode);
+            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
+            this.setBackground(Color.CYAN);
+            this.setDoubleBuffered(true);
+            this.setFocusable(true);
+            player = new Player(this);
+            timer = new Timers(this);
+            asset = new GameAsset(this);
+            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
+            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
+            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
+            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
+            this.addMouseMotionListener(player);
+            this.addMouseListener(player);
+            moles = new ArrayList<>();
+            bombs = new ArrayList<>();
+        }
+        else if(mode == "nm")
+        {
+            this.mode = mode;
+            System.out.println(this.mode);
+            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
+            this.setBackground(Color.CYAN);
+            this.setDoubleBuffered(true);
+            this.setFocusable(true);
+            player = new Player(this);
+            timer = new Timers(this);
+            asset = new GameAsset(this);
+            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
+            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
+            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
+            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
+            this.addMouseMotionListener(player);
+            this.addMouseListener(player);
+            moles = new ArrayList<>();
+            bombs = new ArrayList<>();
+        }
+        else if(mode == "hr")
+        {
+            this.mode = mode;
+            System.out.println(this.mode);
+            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
+            this.setBackground(Color.CYAN);
+            this.setDoubleBuffered(true);
+            this.setFocusable(true);
+            player = new Player(this);
+            timer = new Timers(this);
+            asset = new GameAsset(this);
+            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
+            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
+            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
+            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
+            this.addMouseMotionListener(player);
+            this.addMouseListener(player);
+            moles = new ArrayList<>();
+            bombs = new ArrayList<>();
+        }
     }
 
     public Player getPlayer() {
@@ -98,39 +163,83 @@ public class GameBoard extends JPanel implements Runnable{
 
     public void update() {            
         player.update();
-        if (moles.size() < 3 && bombs.size() < 2) {
-            Random random = new Random();
-            int x, y;
-            boolean overlap;
-            do {
-                overlap = false;
-                x = random.nextInt(screen.getScreen_col()) * screen.getTilesize();
-                y = (random.nextInt(screen.getScreen_row()) + 1) * screen.getTilesize();
-                for (Mole mole : moles) {
-                    if (mole.getX() == x && mole.getY() == y) {
-                        overlap = true;
-                        break;
-                    }
-                }
-                if(!overlap){
-                    for (Bomb bomb : bombs){
-                        if (bomb.getX() == x && bomb.getY() == y){
+        if(mode == "ez" || mode == "nm")
+        {
+            if (moles.size() < 3 && bombs.size() < 2) {
+                Random random = new Random();
+                int x, y;
+                boolean overlap;
+                do {
+                    overlap = false;
+                    x = random.nextInt(screen.getScreen_col()) * screen.getTilesize();
+                    y = (random.nextInt(screen.getScreen_row()) + 1) * screen.getTilesize();
+                    for (Mole mole : moles) {
+                        if (mole.getX() == x && mole.getY() == y) {
                             overlap = true;
                             break;
-                        }  
+                        }
                     }
+                    if(!overlap){
+                        for (Bomb bomb : bombs){
+                            if (bomb.getX() == x && bomb.getY() == y){
+                                overlap = true;
+                                break;
+                            }  
+                        }
+                    }
+                } while (overlap);
+                if (random.nextInt(3) == 0) {
+                    if (mode == "nm" || mode == "hr")
+                    {
+                        System.out.println(this.mode);
+                        Bomb bomb = new Bomb(x, y, this);
+                        bombs.add(bomb);
+                        pool.submit(bomb);
+                    }
+                } else {
+                    Mole mole = new Mole(x, y, this);
+                    moles.add(mole);
+                    pool.submit(mole);
                 }
-            } while (overlap);
-            if (random.nextInt(3) == 0) {
-                Bomb bomb = new Bomb(x, y, this);
-                bombs.add(bomb);
-                pool.submit(bomb);
-            } else {
-                Mole mole = new Mole(x, y, this);
-                moles.add(mole);
-                pool.submit(mole);
+                System.out.println(moles.size()+ " " + bombs.size());
             }
-            System.out.println(moles.size()+ " " + bombs.size());
+        }
+        else if (mode == "hr")
+        {
+            if (moles.size() < 2 && bombs.size() < 4) {
+                Random random = new Random();
+                int x, y;
+                boolean overlap;
+                do {
+                    overlap = false;
+                    x = random.nextInt(screen.getScreen_col()) * screen.getTilesize();
+                    y = (random.nextInt(screen.getScreen_row()) + 1) * screen.getTilesize();
+                    for (Mole mole : moles) {
+                        if (mole.getX() == x && mole.getY() == y) {
+                            overlap = true;
+                            break;
+                        }
+                    }
+                    if(!overlap){
+                        for (Bomb bomb : bombs){
+                            if (bomb.getX() == x && bomb.getY() == y){
+                                overlap = true;
+                                break;
+                            }  
+                        }
+                    }
+                } while (overlap);
+                if (random.nextInt(2) == 0) {
+                    Bomb bomb = new Bomb(x, y, this);
+                    bombs.add(bomb);
+                    pool.submit(bomb);
+                } else {
+                    Mole mole = new Mole(x, y, this);
+                    moles.add(mole);
+                    pool.submit(mole);
+                }
+                System.out.println(moles.size()+ " " + bombs.size());
+            }
         }
     }
 

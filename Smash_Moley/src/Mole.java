@@ -3,6 +3,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.util.Random;
 
+
 public class Mole extends Entity implements Hitable, Runnable {
     private GameBoard game;
     private boolean running = true;
