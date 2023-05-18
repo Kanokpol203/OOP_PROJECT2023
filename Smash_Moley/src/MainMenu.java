@@ -3,79 +3,70 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainMenu implements MouseListener{
-    private Screen_Size size = new Screen_Size();
-    private JFrame f;
-    private JPanel p1, p2, p3, p4, p5;
-    private JButton b1, b2, ez, nm, hr;
-    private JLabel l1;
+    private Screen_Size screen = new Screen_Size();
+    private JFrame frame;
+    private JPanel p1;
+    private JPanel p2;
+    private JPanel p3;
+    private JPanel p4;
+    private JPanel p5;
+    private JButton start_bt;
+    private JButton exit_bt;
+    private JLabel txt;
+    public static Sound sound;
     
     public MainMenu(){
-        f = new JFrame("NoobMenu");
+       frame = new JFrame("MainMenu");
+       sound = new Sound();
+       this.playTheme(2);
         p1 = new JPanel();
         p2 = new JPanel();
         p3 = new JPanel();
         p4 = new JPanel();
         p5 = new JPanel();
-        b1 = new JButton("Start");
-        b2 = new JButton("Exit");
-        ez = new JButton("Easy");
-        nm = new JButton("Normal");
-        hr = new JButton("Hard");
-        l1 = new JLabel("SMASH MOLEY!", JLabel.CENTER);
-        
-        b1.addMouseListener(this);
-        b2.addMouseListener(this);
-        ez.addMouseListener(this);
-        nm.addMouseListener(this);
-        hr.addMouseListener(this);
-        
-        l1.setFont(new Font("arial", Font.BOLD, 26));
-        p5.setBackground(Color.cyan);
-        p2.setBackground(Color.cyan);
-        p3.setBackground(Color.cyan);
-        p4.setBackground(Color.green);
-        p1.setBackground(Color.green);
-        
-        p1.setLayout(new GridLayout(5, 1));
-        p5.add(l1);
-        p1.add(p5);
-        p4.add(b2);
+        start_bt = new JButton("Start");
+        start_bt.setFont(new Font("arial", Font.BOLD, 18));
+        start_bt.setBackground(Color.white);
+        start_bt.setPreferredSize(new Dimension(100, 50));
+        start_bt.addMouseListener(this);
+        exit_bt = new JButton("Exit");
+        exit_bt.setFont(new Font("arial", Font.BOLD, 18));
+        exit_bt.setBackground(Color.white);
+        exit_bt.setPreferredSize(new Dimension(100, 50));
+        exit_bt.addMouseListener(this);
+        txt = new JLabel("SMASH MOLEY!", JLabel.CENTER);
+        txt.setFont(new Font("arial", Font.BOLD, 64));
+
+        p1.setLayout(new GridLayout(2, 1));
+        p2.setLayout(new BorderLayout());
+        p3.setLayout(new GridLayout(3, 1));
+        p4.setLayout(new FlowLayout());
+        p5.setLayout(new FlowLayout());
+
+        p4.add(start_bt);
+        p5.add(exit_bt);
+        p3.add(p4);
+        p3.add(p5);
+        p2.add(txt);
         p1.add(p2);
-        p3.add(ez);
-        p3.add(nm);
-        p3.add(hr);
         p1.add(p3);
-        p1.add(p4);
-        f.add(p1);
+        frame.add(p1);
         
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(size.getWidth(), size.getHeight());
-        f.setResizable(false);
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(screen.getWidth(), screen.getHeight());
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource().equals(b1)){
-            new Starter();
-            f.dispose();
-            
+        if(e.getSource().equals(start_bt)){
+            new Difficulty_Menu();
+            frame.dispose();
         }
-        else if(e.getSource().equals(b2)){
-            f.dispose();
-        }
-        else if(e.getSource().equals(ez)){
-            new Starter("ez");
-            f.dispose();
-        }
-        else if(e.getSource().equals(nm)){
-            new Starter("nm");
-            f.dispose();
-        }
-        else if(e.getSource().equals(hr)){
-            new Starter("hr");
-            f.dispose();
+        else if(e.getSource().equals(exit_bt)){
+            System.exit(0);
         }
     }
 
@@ -91,33 +82,30 @@ public class MainMenu implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(e.getSource().equals(b1)){
-            b1.setBackground(Color.gray);
+        if(e.getSource().equals(start_bt)){
+            start_bt.setBackground(Color.gray);
         }
-        else if(e.getSource().equals(b2)){
-            b2.setBackground(Color.gray);
+        else if(e.getSource().equals(exit_bt)){
+            exit_bt.setBackground(Color.gray);
         }
-        else if(e.getSource().equals(ez)){
-            ez.setBackground(Color.gray);
-        }
-        else if(e.getSource().equals(nm)){
-            nm.setBackground(Color.gray);
-        }
-        else if(e.getSource().equals(hr)){
-            hr.setBackground(Color.gray);
-        }    
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        b1.setBackground(Color.white);
-        b2.setBackground(Color.white);
-        ez.setBackground(Color.white);
-        nm.setBackground(Color.white);
-        hr.setBackground(Color.white);
+        start_bt.setBackground(Color.white);
+        exit_bt.setBackground(Color.white);
     }
     
     public static void main(String[] args){
         new MainMenu();
+    }
+    public static void playTheme(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    
+    synchronized public static void stopTheme(){
+        sound.stop();
     }
 }

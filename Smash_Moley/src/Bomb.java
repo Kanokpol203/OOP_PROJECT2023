@@ -4,7 +4,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Bomb extends Entity implements Hitable, Runnable{
-    private int life_time = 1000;
+    private int life_time = 3000;
     private boolean alive = true;
     private long spawntime;
     private GameBoard game;

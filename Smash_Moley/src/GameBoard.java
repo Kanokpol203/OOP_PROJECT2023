@@ -48,65 +48,37 @@ public class GameBoard extends JPanel implements Runnable{
     }
     
     public GameBoard(String mode) {
+        this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
+        this.setBackground(Color.CYAN);
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        player = new Player(this);
+        timer = new Timers(this);
+        asset = new GameAsset(this);
+        theme = new Sound();
+        gamestart = true;
+        bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
+        bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
+        mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
+        mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
+        this.addMouseMotionListener(player);
+        this.addMouseListener(player);
+        moles = new ArrayList<>();
+        bombs = new ArrayList<>();
         if(mode == "ez")
         {
             this.mode = mode;
             System.out.println(this.mode);
-            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
-            this.setBackground(Color.CYAN);
-            this.setDoubleBuffered(true);
-            this.setFocusable(true);
-            player = new Player(this);
-            timer = new Timers(this);
-            asset = new GameAsset(this);
-            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
-            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
-            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
-            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
-            this.addMouseMotionListener(player);
-            this.addMouseListener(player);
-            moles = new ArrayList<>();
-            bombs = new ArrayList<>();
         }
         else if(mode == "nm")
         {
             this.mode = mode;
             System.out.println(this.mode);
-            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
-            this.setBackground(Color.CYAN);
-            this.setDoubleBuffered(true);
-            this.setFocusable(true);
-            player = new Player(this);
-            timer = new Timers(this);
-            asset = new GameAsset(this);
-            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
-            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
-            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
-            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
-            this.addMouseMotionListener(player);
-            this.addMouseListener(player);
-            moles = new ArrayList<>();
-            bombs = new ArrayList<>();
         }
         else if(mode == "hr")
         {
             this.mode = mode;
             System.out.println(this.mode);
-            this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
-            this.setBackground(Color.CYAN);
-            this.setDoubleBuffered(true);
-            this.setFocusable(true);
-            player = new Player(this);
-            timer = new Timers(this);
-            asset = new GameAsset(this);
-            bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
-            bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
-            mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
-            mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
-            this.addMouseMotionListener(player);
-            this.addMouseListener(player);
-            moles = new ArrayList<>();
-            bombs = new ArrayList<>();
         }
     }
 
@@ -157,7 +129,9 @@ public class GameBoard extends JPanel implements Runnable{
             }
         }
         repaint();
-        theme.stop();
+        while(theme.isActive()){   
+            this.stopTheme();
+        }
         pool.shutdown();
     }
 
@@ -281,7 +255,7 @@ public class GameBoard extends JPanel implements Runnable{
         theme.loop();
     }
     
-    public void stopTheme(){
+    synchronized public void stopTheme(){
         theme.stop();
     }
     public void playSE(int i){
