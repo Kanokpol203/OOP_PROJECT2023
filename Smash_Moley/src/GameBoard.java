@@ -26,6 +26,7 @@ public class GameBoard extends JPanel implements Runnable{
     List<Bomb> bombs;
     private Player player;
     Sound theme;
+    Starter frame;
     
     public GameBoard() {
         this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
@@ -47,11 +48,12 @@ public class GameBoard extends JPanel implements Runnable{
         bombs = new ArrayList<>();
     }
     
-    public GameBoard(String mode) {
+    public GameBoard(String mode, Starter frame) {
         this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
         this.setBackground(Color.CYAN);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.frame = frame;
         player = new Player(this);
         timer = new Timers(this);
         asset = new GameAsset(this);
@@ -90,10 +92,10 @@ public class GameBoard extends JPanel implements Runnable{
         return screen;
     }
     
-    synchronized public void removeMole(Mole mole) {
+    public void removeMole(Mole mole) {
         moles.remove(mole);
     }
-    synchronized public void removeBomb(Bomb bomb) {
+    public void removeBomb(Bomb bomb) {
         bombs.remove(bomb);
     }
 
@@ -129,10 +131,19 @@ public class GameBoard extends JPanel implements Runnable{
             }
         }
         repaint();
-        while(theme.isActive()){   
+        int i = 0;
+        while(i < 20){   
             this.stopTheme();
+            i++;
         }
         pool.shutdown();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        frame.close();
+        new MainMenu();
     }
 
     public void update() {            
@@ -257,6 +268,9 @@ public class GameBoard extends JPanel implements Runnable{
     
     synchronized public void stopTheme(){
         theme.stop();
+        while(theme.getClip().isRunning()){
+            theme.stop();
+        }
     }
     public void playSE(int i){
         theme.setFile(i);

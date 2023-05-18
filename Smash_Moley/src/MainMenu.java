@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainMenu implements MouseListener{
+public class MainMenu extends JFrame implements MouseListener{
     private Screen_Size screen = new Screen_Size();
     private JFrame frame;
     private JPanel p1;
@@ -14,10 +14,12 @@ public class MainMenu implements MouseListener{
     private JButton exit_bt;
     private JLabel txt;
     public static Sound sound;
+    private Background bg;
     
     public MainMenu(){
        frame = new JFrame("MainMenu");
        sound = new Sound();
+        bg = new Background(screen);
        this.playTheme(2);
         p1 = new JPanel();
         p2 = new JPanel();
@@ -50,13 +52,19 @@ public class MainMenu implements MouseListener{
         p2.add(txt);
         p1.add(p2);
         p1.add(p3);
-        frame.add(p1);
+        p1.setOpaque(false);
+        p2.setOpaque(false);
+        p3.setOpaque(false);
+        p4.setOpaque(false);
+        p5.setOpaque(false);
+        bg.add(p1);
+        this.add(bg);
         
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(screen.getWidth(), screen.getHeight());
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(screen.getWidth(), screen.getHeight());
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     @Override

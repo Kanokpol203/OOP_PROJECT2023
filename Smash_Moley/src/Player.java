@@ -37,6 +37,7 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
     }
     
     public void stun(){
+//        game.playSE(3);
         stunned = true;
         stunnedstart = System.currentTimeMillis();
     }
@@ -62,15 +63,16 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        game.playSE(0);
         for(Mole mole : game.moles) {
             if(mole.isVisible() && mole.isHit(e.getX(), e.getY()) && !isStunned()) {
+                game.playSE(0);
                 mole.whack();
                 break;
             }
         }
         for(Bomb bomb : game.bombs) {
             if(bomb.isVisible() && bomb.isHit(e.getX(), e.getY()) && !isStunned()) {
+                game.playSE(0);
                 bomb.whack();
                 break;
             }

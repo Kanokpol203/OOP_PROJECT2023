@@ -26,6 +26,7 @@ public class Difficulty_Menu implements MouseListener{
     private JButton normal_bt;
     private JButton hard_bt;
     private JLabel txt;
+    private Background bg;
 
     public Difficulty_Menu() {
       frame = new JFrame("DifficultSelect");
@@ -35,6 +36,7 @@ public class Difficulty_Menu implements MouseListener{
         p4 = new JPanel();
         p5 = new JPanel();
         p6 = new JPanel();
+        bg = new Background(screen);
 
         easy_bt = new JButton("Easy");
         easy_bt.setFont(new Font("arial", Font.BOLD, 18));
@@ -70,7 +72,14 @@ public class Difficulty_Menu implements MouseListener{
         p2.add(txt);
         p1.add(p2);
         p1.add(p3);
-        frame.add(p1);
+        p1.setOpaque(false);
+        p2.setOpaque(false);
+        p3.setOpaque(false);
+        p4.setOpaque(false);
+        p5.setOpaque(false);
+        p6.setOpaque(false);
+        bg.add(p1);
+        frame.add(bg);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(screen.getWidth(), screen.getHeight());

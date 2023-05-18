@@ -11,6 +11,7 @@ public class Sound {
         soundURL[0] = getClass().getResource("/Sound/Bonk_SFX.wav");
         soundURL[1] = getClass().getResource("/Sound/Sound_Game_02.wav");
         soundURL[2] = getClass().getResource("/Sound/Sound_Menu.wav");
+        soundURL[3] = getClass().getResource("/Sound/04.wav");
     }
     public void setFile(int i){
         try{
@@ -28,9 +29,13 @@ public class Sound {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
     synchronized public void stop(){
-        clip.loop(1);
-        clip.stop();
-        clip.close();
+        while(clip.isRunning()){
+            clip.stop();
+        }
+    }
+
+    public Clip getClip() {
+        return clip;
     }
     public boolean isActive(){
         return clip.isActive();

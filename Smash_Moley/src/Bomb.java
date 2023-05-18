@@ -35,7 +35,8 @@ public class Bomb extends Entity implements Hitable, Runnable{
     }
 
     @Override
-    public void whack() {
+    synchronized public void whack() {
+        game.playSE(3);
         this.setVisible(false);
         alive = false; // stop the thread
         game.removeBomb(this);
