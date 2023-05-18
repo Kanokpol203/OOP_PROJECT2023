@@ -70,4 +70,14 @@ public class Bomb extends Entity implements Hitable, Runnable{
             g2d.drawImage(image, this.getX(), this.getY(), game);
         }
     }
+    
+    public long getSpawnTime()
+    {
+        return 0;
+    }
+    
+    public void setSpawnTime(long SpawnTime)
+    {
+        this.spawntime = SpawnTime;
+    }
 }
