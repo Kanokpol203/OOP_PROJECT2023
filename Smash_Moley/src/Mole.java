@@ -2,8 +2,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class Mole extends Entity implements Hitable, Runnable {
     private GameBoard game;
@@ -11,7 +10,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     private Random rand = new Random();
     private Image image;
     
-    public Mole(int x, int y,GameBoard game) {
+    public Mole(int x, int y, GameBoard game) {
         super(x, y, 100);
         this.game = game;
         this.setVisible(false);
@@ -41,6 +40,7 @@ public class Mole extends Entity implements Hitable, Runnable {
         running = false; // stop the thread
         game.removeMole(this);
         game.getAsset().changeScore(this.getScore());
+        game.playSE(0);
     }
     
     

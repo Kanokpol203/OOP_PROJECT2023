@@ -24,8 +24,8 @@ public final class Timers{
 		
 	//window.add(counterLabel);
         this.game = game;
-	second = 0;
-	minute = 3;
+	second = 5;
+	minute = 0;
 	countdownTimer();
 	timer.start();
         strtime = "03" + ":" + "00";
@@ -52,7 +52,7 @@ public final class Timers{
 				
                 if(minute==0 && second==0) {
                     timer.stop();
-                    game.gameThread = null;
+                    game.gamestart = false;
 		}
             }
         });
