@@ -18,10 +18,12 @@ public class GameBoard extends JPanel implements Runnable{
     private Image mole_hole, bg;
     private Timers timer;
     private GameAsset asset;
+    boolean gamestart;
     Thread gameThread;
     List<Mole> moles;
     List<Bomb> bombs;
     private Player player;
+    Sound theme;
     
     public GameBoard() {
         this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
@@ -31,6 +33,8 @@ public class GameBoard extends JPanel implements Runnable{
         player = new Player(this);
         timer = new Timers(this);
         asset = new GameAsset(this);
+        theme = new Sound();
+        gamestart = true;
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
         mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
@@ -70,8 +74,8 @@ public class GameBoard extends JPanel implements Runnable{
     @Override
     public void run() {
         long lastFrameTime = System.currentTimeMillis();
-    
-        while (gameThread != null) {
+        this.playTheme(1);
+        while (gamestart) {
 
             long currentTime = System.currentTimeMillis();
             long elapsedTime = currentTime - lastFrameTime;
@@ -87,6 +91,8 @@ public class GameBoard extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
+        repaint();
+        theme.stop();
         pool.shutdown();
     }
 
@@ -151,10 +157,27 @@ public class GameBoard extends JPanel implements Runnable{
         for(Bomb that_bomb : bombs){
             that_bomb.redraw(g2d);
         }
+        if(!gamestart){
+            
+        }
         asset.redraw(g2d);
         timer.redraw(g2d);
         player.redraw(g2d);
         g.dispose();
+    }
+    
+    public void playTheme(int i){
+        theme.setFile(i);
+        theme.play();
+        theme.loop();
+    }
+    
+    public void stopTheme(){
+        theme.stop();
+    }
+    public void playSE(int i){
+        theme.setFile(i);
+        theme.play();
     }
 }
 

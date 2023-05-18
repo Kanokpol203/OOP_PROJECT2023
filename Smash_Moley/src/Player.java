@@ -62,6 +62,7 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        game.playSE(0);
         for(Mole mole : game.moles) {
             if(mole.isVisible() && mole.isHit(e.getX(), e.getY()) && !isStunned()) {
                 mole.whack();

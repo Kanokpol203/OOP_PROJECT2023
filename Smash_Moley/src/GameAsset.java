@@ -49,6 +49,9 @@ public class GameAsset {
         Rectangle2D bounds = metrics.getStringBounds("SCORE", g2d);
         g2d.drawString("SCORE", 0, (int)bounds.getHeight());
         g2d.drawString(score+"", 0, (int)bounds.getHeight()*2);
+        if(!game.gamestart){
+            g2d.drawString("GAME SET", (game.getWidth()/2) - ((int)bounds.getWidth()), (game.getHeight()/2)-((int)bounds.getHeight()/2));
+        }
     }
     
 }
