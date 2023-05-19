@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 public class Background extends JPanel{
     Image bg;
     public Background(Screen_Size screen){
-        bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
-        bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
+        bg = new ImageIcon("src/Asset/bg_menu.png").getImage();
+        bg = bg.getScaledInstance(screen.getWidth(), screen.getHeight(), Image.SCALE_SMOOTH);
         this.setLayout(new FlowLayout());
         this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
     }

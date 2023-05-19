@@ -64,7 +64,7 @@ public class MainMenu extends JFrame implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         if(e.getSource().equals(start_bt)){
             new Difficulty_Menu();
-            frame.dispose();
+            this.dispose();
         }
         else if(e.getSource().equals(exit_bt)){
             System.exit(0);
