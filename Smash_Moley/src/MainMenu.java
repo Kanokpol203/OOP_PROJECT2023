@@ -56,11 +56,13 @@ public class MainMenu extends JFrame implements MouseListener{
         p5.setOpaque(false);
         bg.add(p1);
         this.add(bg);
+        bg.setOpaque(false);
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(screen.getWidth(), screen.getHeight());
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        this.pack();
         this.setVisible(true);
     }
 
