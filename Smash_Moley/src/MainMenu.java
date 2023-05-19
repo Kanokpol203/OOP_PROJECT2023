@@ -10,6 +10,7 @@ public class MainMenu extends JFrame implements MouseListener{
     private JPanel p3;
     private JPanel p4;
     private JPanel p5;
+    private JPanel p6;
     private JButton start_bt;
     private JButton exit_bt;
     private JLabel txt;
@@ -26,6 +27,8 @@ public class MainMenu extends JFrame implements MouseListener{
         p3 = new JPanel();
         p4 = new JPanel();
         p5 = new JPanel();
+        p6 = new JPanel();
+        p6.setOpaque(false);
         start_bt = new JButton("Start");
         start_bt.setFont(new Font("arial", Font.BOLD, 18));
         start_bt.setBackground(Color.white);
@@ -42,11 +45,11 @@ public class MainMenu extends JFrame implements MouseListener{
 
         p1.setLayout(new GridLayout(2, 1));
         p2.setLayout(new BorderLayout());
-        p3.setLayout(new GridLayout(3, 1));
+        p3.setLayout(new GridLayout(4, 1));
         p4.setLayout(new FlowLayout());
         p5.setLayout(new FlowLayout());
 
-        p4.add(start_bt); p5.add(exit_bt); p3.add(p4); p3.add(p5);
+        p4.add(start_bt); p5.add(exit_bt); p3.add(p6); p3.add(p4); p3.add(p5);
         p2.add(txt); p1.add(p2); p1.add(p3);
         p1.setOpaque(false); p2.setOpaque(false);
         p3.setOpaque(false); p4.setOpaque(false);
