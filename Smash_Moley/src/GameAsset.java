@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -50,6 +51,7 @@ public class GameAsset {
         g2d.drawString("SCORE", 0, (int)bounds.getHeight());
         g2d.drawString(score+"", 0, (int)bounds.getHeight()*2);
         if(!game.gamestart){
+            g2d.setColor(Color.red);
             bounds = metrics.getStringBounds("GAME SET", g2d);
             g2d.drawString("GAME SET", (game.getWidth()/2) - ((int)bounds.getWidth()/2), (game.getHeight()/2)-((int)bounds.getHeight()));
             bounds = metrics.getStringBounds("Score : " + score, g2d);
