@@ -4,12 +4,11 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-public class Sound {
+public class SoundFX {
     private Clip clip;
     private URL soundURL[] = new URL[30];
-    public Sound(){
+    public SoundFX(){
         soundURL[0] = getClass().getResource("/Sound/Bonk_SFX.wav");
-        soundURL[1] = getClass().getResource("/Sound/Sound_Game_02.wav");
         soundURL[2] = getClass().getResource("/Sound/Sound_Menu.wav");
         soundURL[3] = getClass().getResource("/Sound/04.wav");
     }

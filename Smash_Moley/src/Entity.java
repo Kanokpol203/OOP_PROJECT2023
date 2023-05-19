@@ -1,3 +1,6 @@
+
+import java.awt.Graphics2D;
+
 public abstract class Entity {
     private int x;
     private int y;
@@ -51,5 +54,5 @@ public abstract class Entity {
         return y;
     }
     public abstract void update();
-    
+    public abstract void redraw(Graphics2D g2d);
 }

@@ -45,17 +45,10 @@ public class MainMenu extends JFrame implements MouseListener{
         p4.setLayout(new FlowLayout());
         p5.setLayout(new FlowLayout());
 
-        p4.add(start_bt);
-        p5.add(exit_bt);
-        p3.add(p4);
-        p3.add(p5);
-        p2.add(txt);
-        p1.add(p2);
-        p1.add(p3);
-        p1.setOpaque(false);
-        p2.setOpaque(false);
-        p3.setOpaque(false);
-        p4.setOpaque(false);
+        p4.add(start_bt); p5.add(exit_bt); p3.add(p4); p3.add(p5);
+        p2.add(txt); p1.add(p2); p1.add(p3);
+        p1.setOpaque(false); p2.setOpaque(false);
+        p3.setOpaque(false); p4.setOpaque(false);
         p5.setOpaque(false);
         bg.add(p1);
         this.add(bg);

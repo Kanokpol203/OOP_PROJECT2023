@@ -52,6 +52,8 @@ public class Starter extends JFrame{
     }
     public void close(){
         this.dispose();
+        new MainMenu();
+        
     }
     
     public static void main(String[] args){

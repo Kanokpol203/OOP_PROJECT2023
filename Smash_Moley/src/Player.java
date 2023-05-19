@@ -16,8 +16,6 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
     private boolean stunned = false;
     private long stunnedstart;
     private int cursor_size;
-    Thread player_thread = new Thread();
-    final int FPS = 60;
     Image image, stun;
     GameBoard game;
     
@@ -29,7 +27,9 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
         image = image.getScaledInstance(cursor_size, cursor_size, Image.SCALE_SMOOTH);
         stun = new ImageIcon("src/Asset/Cursor_stunned.png").getImage();
         stun = stun.getScaledInstance(cursor_size, cursor_size, Image.SCALE_SMOOTH);
-        this.game.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), null));
+        this.game.setCursor(Toolkit.getDefaultToolkit()
+        .createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)
+        , new Point(), null));
     }
 
     public boolean isStunned() {
@@ -37,7 +37,6 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
     }
     
     public void stun(){
-//        game.playSE(3);
         stunned = true;
         stunnedstart = System.currentTimeMillis();
     }

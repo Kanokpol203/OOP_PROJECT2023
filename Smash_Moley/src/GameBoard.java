@@ -26,6 +26,7 @@ public class GameBoard extends JPanel implements Runnable{
     List<Bomb> bombs;
     private Player player;
     Sound theme;
+    SoundFX sfx;
     Starter frame;
     
     public GameBoard() {
@@ -37,6 +38,7 @@ public class GameBoard extends JPanel implements Runnable{
         timer = new Timers(this);
         asset = new GameAsset(this);
         theme = new Sound();
+        sfx = new SoundFX();
         gamestart = true;
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
@@ -58,6 +60,7 @@ public class GameBoard extends JPanel implements Runnable{
         timer = new Timers(this);
         asset = new GameAsset(this);
         theme = new Sound();
+        sfx = new SoundFX();
         gamestart = true;
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
@@ -131,19 +134,17 @@ public class GameBoard extends JPanel implements Runnable{
             }
         }
         repaint();
-        int i = 0;
-        while(i < 20){   
-            this.stopTheme();
-            i++;
-        }
+
+        theme.stop();
+
         pool.shutdown();
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        theme = null;
         frame.close();
-        new MainMenu();
     }
 
     public void update() {            
@@ -251,9 +252,6 @@ public class GameBoard extends JPanel implements Runnable{
         for(Bomb that_bomb : bombs){
             that_bomb.redraw(g2d);
         }
-        if(!gamestart){
-            
-        }
         asset.redraw(g2d);
         timer.redraw(g2d);
         player.redraw(g2d);
@@ -266,15 +264,9 @@ public class GameBoard extends JPanel implements Runnable{
         theme.loop();
     }
     
-    synchronized public void stopTheme(){
-        theme.stop();
-        while(theme.getClip().isRunning()){
-            theme.stop();
-        }
-    }
     public void playSE(int i){
-        theme.setFile(i);
-        theme.play();
+        sfx.setFile(i);
+        sfx.play();
     }
 }
 

@@ -9,7 +9,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     private GameBoard game;
     private boolean running = true;
     private Random rand = new Random();
-    private Image image;
+    private Image image, whackImage;
     
     public Mole(int x, int y, GameBoard game) {
         super(x, y, 100);
@@ -17,7 +17,9 @@ public class Mole extends Entity implements Hitable, Runnable {
         this.setVisible(false);
         image = new ImageIcon("src/Asset/Mole1.png").getImage();
         image = image.getScaledInstance(this.game.getScreen().getTilesize(), this.game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
-    }
+        whackImage = new ImageIcon("src/Asset/Mole2.png").getImage();
+        whackImage = whackImage.getScaledInstance(this.game.getScreen().getTilesize(), this.game.getScreen().getTilesize(), Image.SCALE_SMOOTH);
+    }   
     public boolean isHit(int x, int y) {
         int hitBoxX = this.getX();
         int hitBoxY = this.getY();
@@ -37,12 +39,11 @@ public class Mole extends Entity implements Hitable, Runnable {
     
     @Override
     synchronized public void whack() {
-        image = new ImageIcon("src/Asset/Mole2.png").getImage();
+        game.playSE(0);
         running = false; // stop the thread
         game.removeMole(this);
         game.getAsset().changeScore(this.getScore());
     }
-    
     
     @Override
     public void update() {
@@ -59,7 +60,6 @@ public class Mole extends Entity implements Hitable, Runnable {
                 game.removeMole(this);
                 running = false;
             }
-
         }
     }
     
