@@ -40,6 +40,7 @@ public class Mole extends Entity implements Hitable, Runnable {
     @Override
     synchronized public void whack() {
         game.playSE(0);
+        setVisible(false);
         running = false; // stop the thread
         game.removeMole(this);
         game.getAsset().changeScore(this.getScore());

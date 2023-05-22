@@ -19,7 +19,10 @@ public class GameBoard extends JPanel implements Runnable{
     private Timers timer;
     private GameAsset asset;
     boolean gamestart;
-
+    private long lastspawntime;
+    private long spawndelay = 250;
+    
+    Spawner spawner;
     private String mode;
     Thread gameThread;
     List<Mole> moles;
@@ -30,7 +33,7 @@ public class GameBoard extends JPanel implements Runnable{
     SoundFX sfx;
     Starter frame;
     
-    public GameBoard() {
+    public GameBoard(Starter start) {
         this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
         this.setBackground(Color.CYAN);
         this.setDoubleBuffered(true);
@@ -39,6 +42,8 @@ public class GameBoard extends JPanel implements Runnable{
         timer = new Timers(this);
         asset = new GameAsset(this);
         theme = new Sound();
+        frame = start;
+        lastspawntime = System.currentTimeMillis();
         sfx = new SoundFX();
         gamestart = true;
         bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
@@ -55,7 +60,7 @@ public class GameBoard extends JPanel implements Runnable{
     }
     
     public GameBoard(String mode, Starter frame) {
-        this();
+        this(frame);
         if(mode == "ez")
         {
             this.mode = mode;
@@ -71,6 +76,8 @@ public class GameBoard extends JPanel implements Runnable{
             this.mode = mode;
             System.out.println(this.mode);
         }
+        spawner = new Spawner(this);
+        spawner.execute();
     }
     synchronized public void whackAll(){
         for (Bomb bomb : bombs){
@@ -79,6 +86,7 @@ public class GameBoard extends JPanel implements Runnable{
         for (Mole mole : moles){
             mole.whack();
         }
+        repaint();
     }
 
     public Player getPlayer() {
@@ -97,6 +105,12 @@ public class GameBoard extends JPanel implements Runnable{
     }
     public void removeNuke(Nuke nuke){
         nukes.remove(nuke);
+    }
+    public String getMode(){
+        return mode;
+    }
+    public ExecutorService getPool(){
+        return pool;
     }
 
     public GameAsset getAsset() {
@@ -130,8 +144,9 @@ public class GameBoard extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
+        spawner.stopSpawner();
         repaint();
-
+        
         theme.stop();
 
         pool.shutdown();
@@ -144,91 +159,8 @@ public class GameBoard extends JPanel implements Runnable{
         frame.close();
     }
 
-    public void update() {            
+    public void update() {
         player.update();
-        if(mode.equals("ez") || mode.equals("nr"))
-        {
-            if (moles.size() < 3 && bombs.size() < 2) {
-                Random random = new Random();
-                int x, y;
-                boolean overlap;
-                do {
-                    overlap = false;
-                    x = random.nextInt(screen.getScreen_col()) * screen.getTilesize();
-                    y = (random.nextInt(screen.getScreen_row()) + 1) * screen.getTilesize();
-                    for (Mole mole : moles) {
-                        if (mole.getX() == x && mole.getY() == y) {
-                            overlap = true;
-                            break;
-                        }
-                    }
-                    if(!overlap){
-                        for (Bomb bomb : bombs){
-                            if (bomb.getX() == x && bomb.getY() == y){
-                                overlap = true;
-                                break;
-                            }  
-                        }
-                    }
-                } while (overlap);
-                if (random.nextInt(3) == 0) {
-                    if (mode == "nm" || mode == "hr")
-                    {
-                        System.out.println(this.mode);
-                        Bomb bomb = new Bomb(x, y, this);
-                        bombs.add(bomb);
-                        pool.submit(bomb);
-                    }
-                } else {
-                    Mole mole = new Mole(x, y, this);
-                    moles.add(mole);
-                    pool.submit(mole);
-                }
-                System.out.println(moles.size()+ " " + bombs.size());
-            }
-        }
-        else if (mode.equals("hr"))
-        {
-            if (moles.size() < 2 && bombs.size() < 4 && nukes.size() < 2) {
-                Random random = new Random();
-                Random random2 = new Random();
-                int x, y;
-                boolean overlap;
-                do {
-                    overlap = false;
-                    x = random.nextInt(screen.getScreen_col()) * screen.getTilesize();
-                    y = (random.nextInt(screen.getScreen_row()) + 1) * screen.getTilesize();
-                    for (Mole mole : moles) {
-                        if (mole.getX() == x && mole.getY() == y) {
-                            overlap = true;
-                            break;
-                        }
-                    }
-                    if(!overlap){
-                        for (Bomb bomb : bombs){
-                            if (bomb.getX() == x && bomb.getY() == y){
-                                overlap = true;
-                                break;
-                            }  
-                        }
-                    }
-                } while (overlap);
-                if (random.nextInt(2) == 0) {
-                    Bomb bomb = new Bomb(x, y, this);
-                    bombs.add(bomb);
-                    pool.submit(bomb);
-                }else if(random2.nextInt(3) == 1){
-                    Nuke nuke = new Nuke(x, y, this);
-                    nukes.add(nuke);
-                    pool.submit(nuke);
-                } else {
-                    Mole mole = new Mole(x, y, this);
-                    moles.add(mole);
-                    pool.submit(mole);
-                }
-                System.out.println(moles.size()+ " " + bombs.size());
-            }
-        }
     }
 
 
