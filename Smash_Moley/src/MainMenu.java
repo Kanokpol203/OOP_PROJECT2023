@@ -39,7 +39,7 @@ public class MainMenu extends JFrame implements MouseListener{
         exit_bt.setBackground(Color.white);
         exit_bt.setPreferredSize(new Dimension(100, 50));
         exit_bt.addMouseListener(this);
-        txt = new JLabel("SMASH MOLEY!", JLabel.CENTER);
+        txt = new JLabel("", JLabel.CENTER);
         txt.setForeground(Color.white);
         txt.setFont(new Font("arial", Font.BOLD, 64));
 
