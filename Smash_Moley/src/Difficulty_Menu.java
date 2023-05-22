@@ -56,6 +56,7 @@ public class Difficulty_Menu implements MouseListener{
         
         txt = new JLabel("Difficult Select", JLabel.CENTER);
         txt.setFont(new Font("arial", Font.BOLD, 64));
+        txt.setForeground(Color.white);
 
         p1.setLayout(new GridLayout(2, 1));
         p2.setLayout(new BorderLayout());

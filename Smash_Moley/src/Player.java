@@ -76,6 +76,13 @@ public class Player extends Entity implements MouseMotionListener, MouseListener
                 break;
             }
         }
+        for(Nuke nuke : game.nukes){
+            if(nuke.isVisible() && nuke.isHit(e.getX(), e.getY()) && !isStunned()){
+                game.playSE(0);
+                nuke.whack();
+                break;
+            }
+        }
     }
     
     @Override

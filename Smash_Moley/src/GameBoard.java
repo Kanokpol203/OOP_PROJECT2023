@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 public class GameBoard extends JPanel implements Runnable{
     public final int FPS = 60;
     private Screen_Size screen = new Screen_Size();
-    ExecutorService pool = Executors.newFixedThreadPool(5);
-    private Image mole_hole, bg;
+    ExecutorService pool = Executors.newFixedThreadPool(15);
+    private Image mole_hole, bg, gui;
     private Timers timer;
     private GameAsset asset;
     boolean gamestart;
@@ -24,6 +24,7 @@ public class GameBoard extends JPanel implements Runnable{
     Thread gameThread;
     List<Mole> moles;
     List<Bomb> bombs;
+    List<Nuke> nukes;
     private Player player;
     Sound theme;
     SoundFX sfx;
@@ -44,32 +45,17 @@ public class GameBoard extends JPanel implements Runnable{
         bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
         mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
         mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
+        gui = new ImageIcon("src/Asset/Wood_Board1.png").getImage();
+        gui = gui.getScaledInstance(screen.getWidth(), screen.getGUI_SIZE(), Image.SCALE_SMOOTH);
         this.addMouseMotionListener(player);
         this.addMouseListener(player);
         moles = new ArrayList<>();
         bombs = new ArrayList<>();
+        nukes = new ArrayList<>();
     }
     
     public GameBoard(String mode, Starter frame) {
-        this.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
-        this.setBackground(Color.CYAN);
-        this.setDoubleBuffered(true);
-        this.setFocusable(true);
-        this.frame = frame;
-        player = new Player(this);
-        timer = new Timers(this);
-        asset = new GameAsset(this);
-        theme = new Sound();
-        sfx = new SoundFX();
-        gamestart = true;
-        bg = new ImageIcon("src/Asset/bg_tmp.png").getImage();
-        bg = bg.getScaledInstance(screen.getWidth(), screen.getGame_height(), Image.SCALE_SMOOTH);
-        mole_hole = new ImageIcon("src/Asset/Mole_hole1_test.png").getImage();
-        mole_hole = mole_hole.getScaledInstance(screen.getTilesize(), screen.getTilesize(), Image.SCALE_SMOOTH);
-        this.addMouseMotionListener(player);
-        this.addMouseListener(player);
-        moles = new ArrayList<>();
-        bombs = new ArrayList<>();
+        this();
         if(mode == "ez")
         {
             this.mode = mode;
@@ -86,6 +72,14 @@ public class GameBoard extends JPanel implements Runnable{
             System.out.println(this.mode);
         }
     }
+    synchronized public void whackAll(){
+        for (Bomb bomb : bombs){
+            bomb.whack();
+        }
+        for (Mole mole : moles){
+            mole.whack();
+        }
+    }
 
     public Player getPlayer() {
         return player;
@@ -100,6 +94,9 @@ public class GameBoard extends JPanel implements Runnable{
     }
     public void removeBomb(Bomb bomb) {
         bombs.remove(bomb);
+    }
+    public void removeNuke(Nuke nuke){
+        nukes.remove(nuke);
     }
 
     public GameAsset getAsset() {
@@ -149,7 +146,7 @@ public class GameBoard extends JPanel implements Runnable{
 
     public void update() {            
         player.update();
-        if(mode == "ez" || mode == "nm")
+        if(mode.equals("ez") || mode.equals("nr"))
         {
             if (moles.size() < 3 && bombs.size() < 2) {
                 Random random = new Random();
@@ -190,10 +187,11 @@ public class GameBoard extends JPanel implements Runnable{
                 System.out.println(moles.size()+ " " + bombs.size());
             }
         }
-        else if (mode == "hr")
+        else if (mode.equals("hr"))
         {
-            if (moles.size() < 2 && bombs.size() < 4) {
+            if (moles.size() < 2 && bombs.size() < 4 && nukes.size() < 2) {
                 Random random = new Random();
+                Random random2 = new Random();
                 int x, y;
                 boolean overlap;
                 do {
@@ -219,6 +217,10 @@ public class GameBoard extends JPanel implements Runnable{
                     Bomb bomb = new Bomb(x, y, this);
                     bombs.add(bomb);
                     pool.submit(bomb);
+                }else if(random2.nextInt(3) == 1){
+                    Nuke nuke = new Nuke(x, y, this);
+                    nukes.add(nuke);
+                    pool.submit(nuke);
                 } else {
                     Mole mole = new Mole(x, y, this);
                     moles.add(mole);
@@ -236,7 +238,7 @@ public class GameBoard extends JPanel implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.drawImage(bg, 0, screen.getTilesize(), this);
-        g2d.drawRect(0, 0, screen.getWidth(), screen.getGUI_SIZE());
+        g2d.drawImage(gui, 0, 0, this);
         
         for (int row = 1; row < screen.getScreen_row() + 1; row++) {
             for (int col = 0; col < screen.getScreen_col(); col++) {
@@ -251,6 +253,9 @@ public class GameBoard extends JPanel implements Runnable{
         }
         for(Bomb that_bomb : bombs){
             that_bomb.redraw(g2d);
+        }
+        for(Nuke that_nuke : nukes){
+            that_nuke.redraw(g2d);
         }
         asset.redraw(g2d);
         timer.redraw(g2d);

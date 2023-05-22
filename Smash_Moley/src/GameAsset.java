@@ -46,10 +46,11 @@ public class GameAsset {
     }
     public void redraw(Graphics g2d){
         g2d.setFont(font1);
+        g2d.setColor(Color.white);
         FontMetrics metrics = g2d.getFontMetrics(font1);
         Rectangle2D bounds = metrics.getStringBounds("SCORE", g2d);
-        g2d.drawString("SCORE", 0, (int)bounds.getHeight());
-        g2d.drawString(score+"", 0, (int)bounds.getHeight()*2);
+        g2d.drawString("SCORE", 25, (int)bounds.getHeight());
+        g2d.drawString(score+"", 25, (int)bounds.getHeight()*2);
         if(!game.gamestart){
             g2d.setColor(Color.red);
             bounds = metrics.getStringBounds("GAME SET", g2d);
