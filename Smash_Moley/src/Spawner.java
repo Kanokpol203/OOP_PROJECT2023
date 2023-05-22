@@ -103,7 +103,6 @@ public class Spawner extends SwingWorker<Void, Void>{
                         game.pool.submit(mole);
                     }
                     lastspawntime = currentTime;
-                    System.out.println(game.moles.size()+ " " + game.bombs.size());
                 }
             }
         }

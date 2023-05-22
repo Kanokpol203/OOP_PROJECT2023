@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 public class Starter extends JFrame{
     public Starter(){
-        GameBoard game = new GameBoard("nm", this);
+        GameBoard game = new GameBoard("nr", this);
         this.add(game);
         this.setTitle("Smash Moley!");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,9 +25,9 @@ public class Starter extends JFrame{
             this.setResizable(false);
             game.startThread();
         }
-        else if(ez == "nm"){
+        else if(ez == "nr"){
             System.out.println("nm");
-            GameBoard game = new GameBoard("nm", this);
+            GameBoard game = new GameBoard("nr", this);
             this.add(game);
             this.setTitle("Smash Moley!");
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

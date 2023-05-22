@@ -97,7 +97,7 @@ public class Difficulty_Menu implements MouseListener{
             MainMenu.stopTheme();
         }
         else if(e.getSource().equals(normal_bt)){
-            new Starter("nm");
+            new Starter("nr");
             frame.dispose();
             MainMenu.stopTheme();
         }

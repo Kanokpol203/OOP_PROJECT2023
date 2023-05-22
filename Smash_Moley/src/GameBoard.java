@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -71,7 +72,7 @@ public class GameBoard extends JPanel implements Runnable{
             this.mode = mode;
             System.out.println(this.mode);
         }
-        else if(mode == "hr")
+        else if(mode == "nr")
         {
             this.mode = mode;
             System.out.println(this.mode);
@@ -79,15 +80,29 @@ public class GameBoard extends JPanel implements Runnable{
         spawner = new Spawner(this);
         spawner.execute();
     }
-    synchronized public void whackAll(){
-        for (Bomb bomb : bombs){
+    public void whackAll() {
+        List<Bomb> bombsToWhack = new ArrayList<>();
+        List<Mole> molesToWhack = new ArrayList<>();
+
+        for (Bomb bomb : bombs) {
+            bombsToWhack.add(bomb);
+        }
+        for (Mole mole : moles) {
+            molesToWhack.add(mole);
+        }
+
+        for (Bomb bomb : bombsToWhack) {
             bomb.whack();
         }
-        for (Mole mole : moles){
+
+
+        for (Mole mole : molesToWhack) {
             mole.whack();
         }
+
         repaint();
     }
+
 
     public Player getPlayer() {
         return player;
@@ -98,13 +113,34 @@ public class GameBoard extends JPanel implements Runnable{
     }
     
     public void removeMole(Mole mole) {
-        moles.remove(mole);
+        Iterator<Mole> iterator = moles.iterator();
+        while (iterator.hasNext()) {
+            Mole currentMole = iterator.next();
+            if (currentMole == mole) {
+                iterator.remove();
+                break;
+            }
+        }
     }
     public void removeBomb(Bomb bomb) {
-        bombs.remove(bomb);
+        Iterator<Bomb> iterator = bombs.iterator();
+        while (iterator.hasNext()) {
+            Bomb currentbomb = iterator.next();
+            if (currentbomb == bomb) {
+                iterator.remove();
+                break;
+            }
+        }
     }
     public void removeNuke(Nuke nuke){
-        nukes.remove(nuke);
+        Iterator<Nuke> iterator = nukes.iterator();
+        while (iterator.hasNext()) {
+            Nuke currentnuke = iterator.next();
+            if (currentnuke == nuke) {
+                iterator.remove();
+                break;
+            }
+        }
     }
     public String getMode(){
         return mode;
