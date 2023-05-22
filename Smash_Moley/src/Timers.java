@@ -24,8 +24,8 @@ public final class Timers{
 		
 	//window.add(counterLabel);
         this.game = game;
-	second = 1;
-	minute = 0;
+	second = 0;
+	minute = 1;
 	countdownTimer();
 	timer.start();
         strtime = dFormat.format(minute) + ":" + dFormat.format(second);
