@@ -67,12 +67,12 @@ public class GameBoard extends JPanel implements Runnable{
             this.mode = mode;
             System.out.println(this.mode);
         }
-        else if(mode == "nm")
+        else if(mode == "nr")
         {
             this.mode = mode;
             System.out.println(this.mode);
         }
-        else if(mode == "nr")
+        else if(mode == "hr")
         {
             this.mode = mode;
             System.out.println(this.mode);

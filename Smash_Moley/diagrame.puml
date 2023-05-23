@@ -1,0 +1,79 @@
+@startuml
+abstract class Entity
+annotation java.lang.Override
+class Background
+class Bomb
+class Difficulty_Menu
+class GameAsset
+class GameBoard
+class JFrame
+class MainMenu
+class Mole
+class Nuke
+class Player
+class Screen_Size
+class Sound
+class SoundFX
+class Spawner
+class Starter
+class Timers
+class java.awt.BorderLayout
+class java.awt.Color
+class java.awt.Dimension
+class java.awt.FlowLayout
+class java.awt.Font
+class java.awt.FontMetrics
+class java.awt.Graphics
+class java.awt.Graphics2D
+class java.awt.GridLayout
+class java.awt.Image
+class java.awt.Point
+class java.awt.Toolkit
+class java.awt.event.ActionEvent
+class java.awt.event.ActionListener
+class java.awt.event.MouseEvent
+class java.awt.geom.Rectangle2D
+class java.awt.image.BufferedImage
+class java.net.URL
+class java.text.DecimalFormat
+class java.util.ArrayList
+class java.util.Iterator
+class java.util.List
+class java.util.Random
+class java.util.concurrent.ExecutorService
+class java.util.concurrent.Executors
+class javax.sound.sampled.AudioInputStream
+class javax.sound.sampled.AudioSystem
+class javax.sound.sampled.Clip
+class javax.swing.ImageIcon
+class javax.swing.JButton
+class javax.swing.JFrame
+class javax.swing.JLabel
+class javax.swing.JPanel
+class javax.swing.SwingWorker
+class javax.swing.Timer
+interface Hitable
+interface MouseListener
+interface java.awt.event.MouseListener
+interface java.awt.event.MouseMotionListener
+interface java.lang.Runnable
+Background ..> java.lang.Override
+Background --|> javax.swing.JPanel
+Bomb --|> Entity
+Bomb ..> java.lang.Override
+Difficulty_Menu ..> java.lang.Override
+GameBoard ..> java.lang.Override
+GameBoard --|> javax.swing.JPanel
+MainMenu ..> java.lang.Override
+MainMenu --|> JFrame
+Mole --|> Entity
+Mole ..> java.lang.Override
+Nuke --|> Entity
+Nuke ..> java.lang.Override
+Player --|> Entity
+Player ..> java.lang.Override
+Spawner ..> java.lang.Override
+Spawner --|> javax.swing.SwingWorker
+Starter --|> javax.swing.JFrame
+Timers ..> java.lang.Override
+@enduml
